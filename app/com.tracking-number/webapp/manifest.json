@@ -1,0 +1,222 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "agr.fs.com.trackingnumber",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.13.2",
+      "toolsId": "3433e039-8b62-4a81-842b-89bb29d66310"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/Rastreio/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.130.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "agr.fs.com.trackingnumber.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "RastreioEntityList",
+          "target": "RastreioEntityList"
+        },
+        {
+          "pattern": "RastreioEntity({key}):?query:",
+          "name": "RastreioEntityObjectPage",
+          "target": "RastreioEntityObjectPage"
+        }
+      ],
+      "targets": {
+        "RastreioEntityList": {
+          "type": "Component",
+          "id": "RastreioEntityList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/RastreioEntity",
+              "variantManagement": "Page",
+              "navigation": {
+                "RastreioEntity": {
+                  "detail": {
+                    "route": "RastreioEntityObjectPage"
+                  }
+                }
+              },
+              "initialLoad": "Enabled",
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "columns": {
+                    "DataField::Rastreio": {
+                      "width": "auto"
+                    },
+                    "DataField::DataCriacao": {
+                      "width": "auto"
+                    },
+                    "DataField::StatusGlobal": {
+                      "width": "auto"
+                    },
+                    "DataField::Processo": {
+                      "width": "auto"
+                    },
+                    "DataField::StatusProcesso": {
+                      "width": "auto"
+                    },
+                    "DataField::OrdemValidCom": {
+                      "width": "auto"
+                    },
+                    "DataField::OrdemQuantidade": {
+                      "width": "auto"
+                    },
+                    "DataField::OrdemBloqueioGl": {
+                      "width": "auto"
+                    },
+                    "DataField::OrdemWorkflow": {
+                      "width": "auto"
+                    },
+                    "DataField::OrdemCredito": {
+                      "width": "auto"
+                    },
+                    "DataField::OrdemTarifaFrete": {
+                      "width": "auto"
+                    }
+                  },
+                  "actions": {
+                    "idReprocessar": {
+                      "press": ".extension.agr.fs.com.trackingnumber.ext.controller.Extend.onReprocessa",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Reprocessar",
+                      "position": {
+                        "placement": "After"
+                      }
+                    },
+                    "idCancelar": {
+                      "press": ".extension.agr.fs.com.trackingnumber.ext.controller.Extend.onCancelar",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Cancelar",
+                      "position": {
+                        "anchor": "idReprocessar",
+                        "placement": "Before"
+                      }
+                    },
+                    "idEditar": {
+                      "press": ".extension.agr.fs.com.trackingnumber.ext.controller.Extend.onEditar",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Editar",
+                      "position": {
+                        "anchor": "idCancelar",
+                        "placement": "Before"
+                      }
+                    }
+                  },
+                  "tableSettings": {
+                    "selectionMode": "Single"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "RastreioEntityObjectPage": {
+          "type": "Component",
+          "id": "RastreioEntityObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/RastreioEntity"
+            }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "agr.fs.com.trackingnumber.ext.controller.Extend"
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

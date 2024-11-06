@@ -1,0 +1,31 @@
+{
+  "[production]": {
+    "hana": {
+      "deploy-format": "hdbtable"
+    }
+  },
+  "requires": {
+    "[production]": {
+      "db": {
+        "kind": "hana"
+      },
+      "auth": "xsuaa"
+    },
+    "[development]": {
+      "db": {
+        "kind": "sqlite"
+      }
+    },
+    "ZI_SD_RASTREIO_CT_CDS": {
+      "kind": "odata-v2",
+      "model": "srv/external/ZI_SD_RASTREIO_CT_CDS",
+      "csrf": true,
+      "csrfInBatch": true,
+      "credentials": {
+        "destination": "S4HANA",
+        "path": "/sap/opu/odata/sap/ZI_SD_RASTREIO_CT_CDS",
+        "requestTimeout": 600000
+      }
+    }
+  }
+}
