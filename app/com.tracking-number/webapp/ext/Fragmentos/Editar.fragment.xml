@@ -1,0 +1,408 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:form="sap.ui.comp.smartform"
+	xmlns:sf="sap.ui.comp.smartfield">
+	<Dialog id="order-conversion-dialog" contentWidth="90%" contentHeight="90%" title="{i18n>documentCreationData}">
+		<ObjectHeader id="order-object-header" iconDensityAware="false" responsive="true" fullScreenOptimized="true" title="Contrato: {SalesContract}" class="sapUiResponsivePadding--header">
+			<ObjectAttribute id="sales-contract-item-objattr" title="{i18n>salesContractItem}" text="{ path: 'SalesContractItem',
+																									   type: 'sap.ui.model.odata.type.String',
+																									   constraints: {
+																									   	isDigitSequence: true,
+																										maxLength: 6
+																									   }
+																									  }"/>
+			<ObjectAttribute id="sold-to-party-objattr" title="{i18n>soldToParty}" text="{SoldToParty} - {to_BusinessPartner/BusinessPartnerFullName}"/>
+			<ObjectAttribute id="material-objattr" title="{i18n>material}" text="{Material} - {to_Material/Material_Text}"/>
+			<ObjectAttribute id="creation-date-objattr" title="{i18n>creationDate}" text="{ 'path': 'CreationDate', 
+											  									            'type': 'sap.ui.model.type.Date',
+																							'formatOptions': {
+																								'pattern': 'dd/MM/yyyy'
+																							}
+																						  }"/>
+			<ObjectAttribute id="total-quantity-objattr" title="{i18n>totalQuantity}" text="{ parts: ['OrderQuantity', 'ScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+			<ObjectAttribute id="scheduled-quantity-objattr" title="{i18n>scheduledQuantity}" text="{ parts: ['ScheduledQuantity', 'ScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+			<ObjectAttribute id="available-quantity-objattr" title="{i18n>availableQuantity}" text="{ parts: ['AvailableQuantity', 'ScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+		</ObjectHeader>
+		<f:Form id="intercompanySalesOrder-form" editable="true">
+			<f:title>
+				<core:Title text="{i18n>intercompanyContractSelectionTitle}" id="intercompany-conversion-title"/>
+			</f:title>
+			<f:layout>
+				<f:ColumnLayout columnsM="3" columnsL="4" columnsXL="4"/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="{i18n>contractNumber}">
+							<f:fields>
+								<Input id="intercompanySalesContract" value="{orderConversion>/intercompanySalesContract}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onIntercompanyContractHelp"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>soldToParty}" visible="{orderConversion>/intercompanySelected}">
+							<f:fields>
+								<Text text="{orderConversion>/intercompanySoldToParty} - {orderConversion>/intercompanySoldToPartyDescription}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>creationDate}" visible="{orderConversion>/intercompanySelected}">
+							<f:fields>
+								<Text text="{ 'path': 'orderConversion>/intercompanyCreationDate', 
+											  'type': 'sap.ui.model.type.Date',
+											  'formatOptions': {
+												'pattern': 'dd/MM/yyyy'
+											  }
+											}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>salesContractItem}" visible="{orderConversion>/intercompanySelected}">
+							<f:fields>
+								<Text text="{ path: 'orderConversion>/intercompanySalesContractItem',
+											  type: 'sap.ui.model.odata.type.String',
+											  constraints: {
+											   isDigitSequence: true,
+											    maxLength: 6
+											  }
+											}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>material}" visible="{orderConversion>/intercompanySelected}">
+							<f:fields>
+								<Text text="{orderConversion>/intercompanyMaterial} - {orderConversion>/intercompanyMaterialDescription}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>totalQuantity}" visible="{orderConversion>/intercompanySelected}">
+							<f:fields>
+								<Text text="{ parts: ['orderConversion>/intercompanyTotalQuantity', 'orderConversion>/intercompanyScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>scheduledQuantity}" visible="{orderConversion>/intercompanySelected}">
+							<f:fields>
+								<Text text="{ parts: ['orderConversion>/intercompanyScheduledQuantity', 'orderConversion>/intercompanyScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>availableQuantity}" visible="{orderConversion>/intercompanySelected}">
+							<f:fields>
+								<Text text="{ parts: ['orderConversion>/intercompanyAvailableQuantity', 'orderConversion>/intercompanyScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+		<l:Splitter width="98%" id="order-splitter">
+			<VBox class="sapUiSmallMargin" id="order-vbox">
+				<f:Form id="weeklyOrder-form" editable="true">
+					<f:title>
+						<core:Title text="{i18n>weeklyConversionTitle}" id="weekly-conversion-title"/>
+					</f:title>
+					<f:layout>
+						<f:ColumnLayout columnsM="3" columnsL="3" columnsXL="3"/>
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="{i18n>processType}">
+									<f:fields>
+										<Select id="processType" forceSelection="false" selectedKey="{orderConversion>/processType}" items="{
+												path: 'orderTypeCollection>/OrderType',
+												sorter: { path: 'key' }
+											}">
+											<core:Item key="{orderTypeCollection>key}" text="{orderTypeCollection>value}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>salesOrganization}">
+									<f:fields>
+										<Select id="salesOrganization" forceSelection="false" selectedKey="{orderConversion>/salesOrganization}" items="{
+												path: '/SalesOrganization',
+												parameters: {
+													expand: 'to_Text'
+												}
+											}">
+											<core:Item key="{SalesOrganization}" text="{SalesOrganization} - {SalesOrganization_Text}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>distributionChannel}">
+									<f:fields>
+										<Select id="distributionChannel" forceSelection="false" selectedKey="{orderConversion>/distributionChannel}" items="{
+												path: '/DistributionChannel',
+												parameters: { 
+													expand: 'to_Text'
+												}
+											}">
+											<core:Item key="{DistributionChannel}" text="{DistributionChannel} - {DistributionChannel_Text}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>organizationDivision}">
+									<f:fields>
+										<Select id="organizationDivision" forceSelection="false" selectedKey="{orderConversion>/organizationDivision}" items="{
+												path: '/Division',
+												parameters: { 
+													expand: 'to_Text'
+												}
+											}">
+											<core:Item key="{Division}" text="{Division} - {Division_Text}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>withdrawalDate}">
+									<f:fields>
+										<DatePicker id="requestedDeliveryDate" valueFormat="yyyy-MM-dd" value="{ 'path': 'orderConversion>/requestedDeliveryDate', 
+																						    			  'type': 'sap.ui.model.type.Date',
+																										  'formatOptions': {
+																											'pattern': 'dd/MM/yyyy'
+																										  }
+																										}" required="true" width="100%"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>soldToParty}">
+									<f:fields>
+										<Input id="soldToParty" app:weeklyProperty="soldToParty" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>supplierBrokers}">
+									<f:fields>
+										<Input id="partnerBroker" app:weeklyProperty="partnerBroker" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>customerReference}">
+									<f:fields>
+										<Input id="purchaseOrderByCustomer" value="{ path : 'orderConversion>/purchaseOrderByCustomer',
+																					 type : 'sap.ui.model.type.String',
+																					 constraints : {
+																					   minLength: 1,
+																					   maxLength: 80 }
+																			}"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>paymentMethod}">
+									<f:fields>
+										<Select id="paymentMethod" forceSelection="false" selectedKey="{orderConversion>/paymentMethod}" items="{
+												path: '/PaymentMethod',
+												filters : [
+            										{ path : 'Country', operator : 'EQ', value1 : 'BR'}
+        										]
+											}">
+											<core:Item key="{PaymentMethod}" text="{PaymentMethod} - {PaymentMethodName}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>effectiveDate}">
+									<f:fields>
+										<DatePicker id="fixedValueDate" valueFormat="yyyy-MM-dd" value="{ 'path': 'orderConversion>/fixedValueDate', 
+																						    			  'type': 'sap.ui.model.type.Date',
+																										  'formatOptions': {
+																											'pattern': 'dd/MM/yyyy'
+																										  }
+																										}" required="true" width="100%"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>receivingCustomer}">
+									<f:fields>
+										<Input id="partnerReceiver" app:weeklyProperty="partnerReceiver" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>seller}">
+									<f:fields>
+										<Input id="partnerSales" app:weeklyProperty="partnerSales" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>customerReferenceDate}">
+									<f:fields>
+										<DatePicker id="customerReferenceDate" valueFormat="yyyy-MM-dd" value="{ 'path': 'orderConversion>/customerReferenceDate', 
+																						    			  'type': 'sap.ui.model.type.Date',
+																										  'formatOptions': {
+																											'pattern': 'dd/MM/yyyy'
+																										  }
+																										}" required="true" width="100%"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>harvest}">
+									<f:fields>
+										<Select id="harvest" forceSelection="false" selectedKey="{orderConversion>/harvest}" items="{
+												path: '/Harvest'
+											}">
+											<core:Item key="{Harvest}" text="{Harvest} - {HarvestDescription}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>quantity}">
+									<f:fields>
+										<Input id="Number" type="Number" value="{ path : 'orderConversion>/requestedQuantity',
+																				  type : 'sap.ui.model.type.String',
+																				  constraints : {
+																				    minLength: 1,
+																					maxLength: 20
+																			      }
+																				}"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>unloadCustomer}">
+									<f:fields>
+										<Input id="partnerUnload" app:weeklyProperty="partnerUnload" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>paymentCondition}">
+									<f:fields>
+										<Select id="customerPaymentTerms" forceSelection="false" selectedKey="{orderConversion>/customerPaymentTerms}" items="{
+												path: '/PaymentTerms'
+											}">
+											<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTerms_Text}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>priceListType}">
+									<f:fields>
+										<Select id="pricingListType" forceSelection="false" selectedKey="{orderConversion>/pricingListType}" items="{
+												path: '/PriceList'
+											}">
+											<core:Item key="{Pricelist}" text="{Pricelist} - {Pricelist_Text}" />
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>grossAmount}">
+									<f:fields>
+										<Input id="grossAmount" type="Number" value="{ path : 'orderConversion>/grossAmount',
+																					   type : 'sap.ui.model.type.String',
+																					   constraints : {
+																					     minLength: 1,
+																						 maxLength: 20
+																					   }
+																					  }"/>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+				<layoutData>
+					<l:SplitterLayoutData size="70%" resizable="false"/>
+				</layoutData>
+			</VBox>
+			<VBox class="fs-table-margin">
+				<Table id="shipping-divisions" items="{orderConversion>/shippingDivisions}" headerText="{i18n>shippingDivisions}">
+					<columns>
+						<Column>
+							<Text text="{i18n>loadingDate}"/>
+						</Column>
+						<Column demandPopin="true">
+							<Text text="{i18n>scheduledQuantity}"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem vAlign="Middle">
+							<cells>
+								<Text text="{orderConversion>loadingDate}"/>
+								<Text text="{orderConversion>scheduledQuantity}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+				<layoutData>
+					<l:SplitterLayoutData size="auto"/>
+				</layoutData>
+			</VBox>
+		</l:Splitter>
+		<VBox>
+			<f:Form id="purchaseOrder-form" editable="true">
+				<f:title>
+					<core:Title text="{i18n>intercompanyPurchaseOrder}"/>
+				</f:title>
+				<f:layout>
+					<f:ColumnLayout columnsM="3" columnsL="4" columnsXL="4"/>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>requester}">
+								<f:fields>
+									<Input id="requisitionerName" maxLength="12" value="{
+																					path : 'orderConversion>/requisitionerName',
+																					type : 'sap.ui.model.type.String',
+																					constraints : { minLength: 1,
+																									maxLength: 12
+																								  }
+																		        }"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>supplier}">
+								<f:fields>
+									<Input id="supplier" app:weeklyProperty="supplier" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>purchaseOrganization}">
+								<f:fields>
+									<Select id="purchasingOrganization" forceSelection="false" selectedKey="{orderConversion>/purchasingOrganization}" items="{
+											path: '/PurchasingOrganization'
+										}">
+										<core:Item key="{PurchasingOrganization}" text="{PurchasingOrganization} - {PurchasingOrganizationName}" />
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>purchaseGroup}">
+								<f:fields>
+									<Select id="purchasingGroup" forceSelection="false" selectedKey="{orderConversion>/purchasingGroup}" items="{
+											path: '/PurchasingGroup'
+										}">
+										<core:Item key="{PurchasingGroup}" text="{PurchasingGroup} - {PurchasingGroupName}" />
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>incoterms}">
+								<f:fields>
+									<Select id="incotermsClassification" forceSelection="false" selectedKey="{orderConversion>/incotermsClassification}" items="{
+													path: '/IncotermsClassification'
+												}">
+										<core:Item key="{IncotermsClassification}" text="{IncotermsClassification} - {IncotermsClassification_Text}" />
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>paymentCondition}">
+								<f:fields>
+									<Select id="paymentTerms" forceSelection="false" selectedKey="{orderConversion>/paymentTerms}" items="{
+													path: '/PaymentTerms'
+												}">
+										<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTerms_Text}" />
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>purchaseIVA}">
+								<f:fields>
+									<Select id="taxCode" forceSelection="false" selectedKey="{orderConversion>/taxCode}" items="{
+													path: '/TaxCode'
+												}">
+										<core:Item key="{TaxCode}" text="{TaxCode} - {TaxCode_Text}" />
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>storageLocation}">
+								<f:fields>
+									<Select id="storageLocation" forceSelection="false" selectedKey="{orderConversion>/storageLocation}" items="{
+													path: '/StorageLocation'
+												}">
+										<core:Item key="{StorageLocation}" text="{StorageLocation} - {StorageLocationDescription}" />
+									</Select>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</VBox>
+		<footer>
+			<Toolbar>
+				<content>
+					<!-- <Button id="messagePopoverBtn" visible="{= !!${message>/}.length }" icon="{ path: '/', formatter: '.buttonIconFormatter' }" type="{ path: '/', formatter: '.buttonTypeFormatter' }" text="{ path: '/', formatter: '.highestSeverityMessages' }" press=".handleMessagePopoverPress" ariaHasPopup="Dialog" /> -->
+					<ToolbarSpacer/>
+					<Button type="Accept" text="{i18n>save}" press="validateAndPost"/>
+					<Button id="Reject" text="{i18n>cancel}" type="Reject" press="closeDialog" ariaHasPopup="Dialog"/>
+				</content>
+			</Toolbar>
+		</footer>
+	</Dialog>
+</core:FragmentDefinition>

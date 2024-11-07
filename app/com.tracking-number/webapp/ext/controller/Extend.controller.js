@@ -24,7 +24,14 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 			sap.m.MessageBox.information("Cancelar em desenvolvimento")
 		},
 		onEditar: function() {
-			sap.m.MessageBox.information("Editar em desenvolvimento")
+			this.Editar = sap.ui.xmlfragment("agr.fs.com.trackingnumber.ext.Fragmentos.Editar", this)
+			this.getView().addDependent(this.Editar)
+			this.Editar.open()
+		},
+
+		closeDialog: function(){
+			this.Editar.close()
+			this.Editar.destroy()
 		}
 	});
 });

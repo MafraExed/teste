@@ -281,6 +281,7 @@ annotate service.RastreioEntity with @(
         {
             $Type : 'UI.DataField',
             Value : StatusGlobal,
+            Criticality : StatusGlobal,
         },
         {
             $Type : 'UI.DataField',
@@ -337,7 +338,26 @@ annotate service.RastreioEntity with @(
 );
 
 annotate service.RastreioEntity with {
-    Rastreio @Common.Label : 'Rastreio'
+    Rastreio @(
+        Common.ValueList: {
+            $Type : 'Common.ValueListType',
+            Parameters: [
+                {   
+                    $Type : 'Common.ValueListParameterInOut',
+                    ValueListProperty: 'Rastreio',
+                    LocalDataProperty: Rastreio
+                },
+                {
+                    $Type : 'Common.ValueListParameterIn',
+                    ValueListProperty: 'Rastreio'
+                }
+            ],
+            CollectionPath: 'RastreioEntity',
+            SearchSupported: false,
+            Label: 'Rastreio'
+        },
+        Common.Label : 'Rastreio'
+    )
 };
 
 annotate service.RastreioEntity with {

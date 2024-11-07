@@ -11,11 +11,14 @@
     "@sap/cds": "^8",
     "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
     "@sap/xsenv": "^5.4.0",
-    "express": "^4"
+    "express": "^4",
+    "@sap/xssec": "^4",
+    "@cap-js/hana": "^1"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.6",
-    "@cap-js/sqlite": "^1"
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^8"
   },
   "scripts": {
     "start": "cds-serve"
@@ -25,7 +28,14 @@
       "ZI_SD_RASTREIO_CT_CDS": {
         "kind": "odata-v2",
         "model": "srv/external/ZI_SD_RASTREIO_CT_CDS"
+      },
+      "[production]": {
+        "auth": "xsuaa",
+        "db": "hana"
       }
+    },
+    "sql": {
+      "native_hana_associations": false
     }
   },
   "sapux": [

@@ -1,0 +1,8 @@
+{
+    "fs_agr_ct_trackingnumber_db_ContractConversion": {
+        "target": {
+            "schema": "CT_ORDER_CVR",
+            "object": "br_agr_fs_controltower_contractconversion_db_ContractConversion"
+        }
+    }
+}
