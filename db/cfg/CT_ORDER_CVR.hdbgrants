@@ -1,0 +1,14 @@
+{
+  "CT_ORDER_CVR-syn-grantor": {
+     "object_owner": {
+           "container_roles": [
+               "CT_ORDER_CVR_ct_EXTERNAL_ACCESS_G#"
+           ]
+     },
+     "application_user": {
+           "container_roles": [
+               "CT_ORDER_CVR_ct_EXTERNAL_ACCESS"
+           ]
+     }
+  }
+}

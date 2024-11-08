@@ -1,4 +1,4 @@
-sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExtension) {
+sap.ui.define(['sap/ui/core/mvc/ControllerExtension',"sap/ui/model/json/JSONModel"], function (ControllerExtension, JSONModel) {
 	'use strict';
 
 	return ControllerExtension.extend('agr.fs.com.trackingnumber.ext.controller.Extend', {
@@ -16,22 +16,55 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 		},
 
 		onReprocessa: function() {
-			const Selecionados = this.base.getExtensionAPI().getSelectedContexts()
-			
 			sap.m.MessageBox.information("Reprocessar em desenvolvimento")
 		},
 		onCancelar: function() {
-			sap.m.MessageBox.information("Cancelar em desenvolvimento")
+			let dados = this.base.getExtensionAPI().getSelectedContexts()[0].getObject()
+			let oModelAux = new JSONModel();
+			let objeto = {
+				Editavel: false,
+				Dados: dados
+			}
+
+			oModelAux.setData(objeto)
+			this.getView().setModel(oModelAux, "Aux")
+
+			if (this.Cancela){
+				this.Cancela.destroy()
+			}
+
+			this.Cancela = sap.ui.xmlfragment("agr.fs.com.trackingnumber.ext.Fragmentos.Cancelar", this)
+			this.getView().addDependent(this.Cancela)
+			this.Cancela.open()
 		},
 		onEditar: function() {
+			let dados = this.base.getExtensionAPI().getSelectedContexts()[0].getObject()
+			let oModelAux = new JSONModel();
+			let objeto = {
+				Editavel: false,
+				Dados: dados
+			}
+
+			oModelAux.setData(objeto)
+			this.getView().setModel(oModelAux, "Aux")
+
+			if (this.Editar){
+				this.Editar.destroy()
+			}
+
 			this.Editar = sap.ui.xmlfragment("agr.fs.com.trackingnumber.ext.Fragmentos.Editar", this)
 			this.getView().addDependent(this.Editar)
 			this.Editar.open()
 		},
 
-		closeDialog: function(){
+		FechaEditar: function(){
 			this.Editar.close()
 			this.Editar.destroy()
+		},
+
+		FechaCancelar: function(){
+			this.Cancela.close()
+			this.Cancela.destroy()
 		}
 	});
 });

@@ -1,15 +1,13 @@
----
-_schema-version: 3.3.0
+_schema-version: '3.1'
 ID: fs-agr-tracking-number
 version: 1.0.0
-description: "A simple CAP project."
+description: "Control Tower - Tracking Number"
 parameters:
   enable-parallel-deployments: true
 build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm ci
         - npx cds build --production
 modules:
   - name: fs-agr-tracking-number-srv
@@ -17,8 +15,6 @@ modules:
     path: gen/srv
     parameters:
       buildpack: nodejs_buildpack
-      readiness-health-check-type: http
-      readiness-health-check-http-endpoint: /health
     build-parameters:
       builder: npm
     provides:
@@ -26,26 +22,8 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: fs-agr-tracking-number-auth
-      - name: fs-agr-tracking-number-destination
       - name: fs-agr-tracking-number-db
-
-  - name: fs-agr-tracking-number
-    type: approuter.nodejs
-    path: app\router
-    parameters:
-      keep-existing-routes: true
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          name: srv-api # must be used in xs-app.json as well
-          url: ~{srv-url}
-          forwardAuthToken: true
       - name: fs-agr-tracking-number-auth
-      - name: fs-agr-tracking-number-destination
 
   - name: fs-agr-tracking-number-db-deployer
     type: hdb
@@ -54,8 +32,23 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: fs-agr-tracking-number-db
-
+        properties:
+          TARGET_CONTAINER: ~{hdi-container-service}
+      - name: CT_ORDER_CVR-grantor
+        group: SERVICE_REPLACEMENTS                 
+        properties: 
+          key: CT_ORDER_CVR-syn-grantor
+          service: ~{CT_ORDER_CVR-synonym-grantor-service} 
 resources:
+  - name: fs-agr-tracking-number-db
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-service: '${service-name}'
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+      config:
+        schema: CT_TRACKINGNUMBER
   - name: fs-agr-tracking-number-auth
     type: org.cloudfoundry.managed-service
     parameters:
@@ -65,13 +58,9 @@ resources:
       config:
         xsappname: fs-agr-tracking-number-${org}-${space}
         tenant-mode: dedicated
-  - name: fs-agr-tracking-number-destination
-    type: org.cloudfoundry.managed-service
+  - name: CT_ORDER_CVR-grantor
+    type: org.cloudfoundry.existing-service
+    properties:            
+      CT_ORDER_CVR-synonym-grantor-service: ${service-name}
     parameters:
-      service: destination
-      service-plan: lite
-  - name: fs-agr-tracking-number-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
+      service-name: fs-agr-ct-contractconv-db

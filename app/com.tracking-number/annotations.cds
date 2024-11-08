@@ -321,6 +321,10 @@ annotate service.RastreioEntity with @(
             Value : OrdemTarifaFrete,
             Label : 'OrdemTarifaFrete',
         },
+        {
+            $Type : 'UI.DataField',
+            Value : ContratoEtanol,
+        },
     ],
     UI.SelectionFields : [
         Rastreio,

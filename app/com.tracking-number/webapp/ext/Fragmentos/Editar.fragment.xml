@@ -7,7 +7,7 @@
 	xmlns:form="sap.ui.comp.smartform"
 	xmlns:sf="sap.ui.comp.smartfield">
 	<Dialog id="order-conversion-dialog" contentWidth="90%" contentHeight="90%" title="{i18n>documentCreationData}">
-		<ObjectHeader id="order-object-header" iconDensityAware="false" responsive="true" fullScreenOptimized="true" title="Contrato: {SalesContract}" class="sapUiResponsivePadding--header">
+		<ObjectHeader id="order-object-header" iconDensityAware="false" responsive="true" fullScreenOptimized="true" title="Rastreio: {Aux>/Dados/Rastreio}" class="sapUiResponsivePadding--header">
 			<ObjectAttribute id="sales-contract-item-objattr" title="{i18n>salesContractItem}" text="{ path: 'SalesContractItem',
 																									   type: 'sap.ui.model.odata.type.String',
 																									   constraints: {
@@ -39,7 +39,7 @@
 					<f:formElements>
 						<f:FormElement label="{i18n>contractNumber}">
 							<f:fields>
-								<Input id="intercompanySalesContract" value="{orderConversion>/intercompanySalesContract}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onIntercompanyContractHelp"/>
+								<Input id="intercompanySalesContract" value="{orderConversion>/intercompanySalesContract}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onIntercompanyContractHelp" editable="{Aux>/Editavel}"/>
 							</f:fields>
 						</f:FormElement>
 						<f:FormElement label="{i18n>soldToParty}" visible="{orderConversion>/intercompanySelected}">
@@ -109,7 +109,7 @@
 										<Select id="processType" forceSelection="false" selectedKey="{orderConversion>/processType}" items="{
 												path: 'orderTypeCollection>/OrderType',
 												sorter: { path: 'key' }
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{orderTypeCollection>key}" text="{orderTypeCollection>value}" />
 										</Select>
 									</f:fields>
@@ -121,7 +121,7 @@
 												parameters: {
 													expand: 'to_Text'
 												}
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{SalesOrganization}" text="{SalesOrganization} - {SalesOrganization_Text}" />
 										</Select>
 									</f:fields>
@@ -133,7 +133,7 @@
 												parameters: { 
 													expand: 'to_Text'
 												}
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{DistributionChannel}" text="{DistributionChannel} - {DistributionChannel_Text}" />
 										</Select>
 									</f:fields>
@@ -145,7 +145,7 @@
 												parameters: { 
 													expand: 'to_Text'
 												}
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{Division}" text="{Division} - {Division_Text}" />
 										</Select>
 									</f:fields>
@@ -157,17 +157,17 @@
 																										  'formatOptions': {
 																											'pattern': 'dd/MM/yyyy'
 																										  }
-																										}" required="true" width="100%"/>
+																										}" required="true" width="100%" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>soldToParty}">
 									<f:fields>
-										<Input id="soldToParty" app:weeklyProperty="soldToParty" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+										<Input id="soldToParty" app:weeklyProperty="soldToParty" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>supplierBrokers}">
 									<f:fields>
-										<Input id="partnerBroker" app:weeklyProperty="partnerBroker" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp"/>
+										<Input id="partnerBroker" app:weeklyProperty="partnerBroker" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>customerReference}">
@@ -177,7 +177,7 @@
 																					 constraints : {
 																					   minLength: 1,
 																					   maxLength: 80 }
-																			}"/>
+																			}" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>paymentMethod}">
@@ -187,7 +187,7 @@
 												filters : [
             										{ path : 'Country', operator : 'EQ', value1 : 'BR'}
         										]
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{PaymentMethod}" text="{PaymentMethod} - {PaymentMethodName}" />
 										</Select>
 									</f:fields>
@@ -199,17 +199,17 @@
 																										  'formatOptions': {
 																											'pattern': 'dd/MM/yyyy'
 																										  }
-																										}" required="true" width="100%"/>
+																										}" required="true" width="100%" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>receivingCustomer}">
 									<f:fields>
-										<Input id="partnerReceiver" app:weeklyProperty="partnerReceiver" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+										<Input id="partnerReceiver" app:weeklyProperty="partnerReceiver" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>seller}">
 									<f:fields>
-										<Input id="partnerSales" app:weeklyProperty="partnerSales" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+										<Input id="partnerSales" app:weeklyProperty="partnerSales" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>customerReferenceDate}">
@@ -219,14 +219,14 @@
 																										  'formatOptions': {
 																											'pattern': 'dd/MM/yyyy'
 																										  }
-																										}" required="true" width="100%"/>
+																										}" required="true" width="100%" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>harvest}">
 									<f:fields>
 										<Select id="harvest" forceSelection="false" selectedKey="{orderConversion>/harvest}" items="{
 												path: '/Harvest'
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{Harvest}" text="{Harvest} - {HarvestDescription}" />
 										</Select>
 									</f:fields>
@@ -239,19 +239,19 @@
 																				    minLength: 1,
 																					maxLength: 20
 																			      }
-																				}"/>
+																				}" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>unloadCustomer}">
 									<f:fields>
-										<Input id="partnerUnload" app:weeklyProperty="partnerUnload" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp"/>
+										<Input id="partnerUnload" app:weeklyProperty="partnerUnload" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>paymentCondition}">
 									<f:fields>
 										<Select id="customerPaymentTerms" forceSelection="false" selectedKey="{orderConversion>/customerPaymentTerms}" items="{
 												path: '/PaymentTerms'
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTerms_Text}" />
 										</Select>
 									</f:fields>
@@ -260,7 +260,7 @@
 									<f:fields>
 										<Select id="pricingListType" forceSelection="false" selectedKey="{orderConversion>/pricingListType}" items="{
 												path: '/PriceList'
-											}">
+											}" editable="{Aux>/Editavel}">
 											<core:Item key="{Pricelist}" text="{Pricelist} - {Pricelist_Text}" />
 										</Select>
 									</f:fields>
@@ -273,7 +273,7 @@
 																					     minLength: 1,
 																						 maxLength: 20
 																					   }
-																					  }"/>
+																					  }" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 							</f:formElements>
@@ -327,19 +327,19 @@
 																					constraints : { minLength: 1,
 																									maxLength: 12
 																								  }
-																		        }"/>
+																		        }" editable="{Aux>/Editavel}"/>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>supplier}">
 								<f:fields>
-									<Input id="supplier" app:weeklyProperty="supplier" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp"/>
+									<Input id="supplier" app:weeklyProperty="supplier" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp" editable="{Aux>/Editavel}"/>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>purchaseOrganization}">
 								<f:fields>
 									<Select id="purchasingOrganization" forceSelection="false" selectedKey="{orderConversion>/purchasingOrganization}" items="{
 											path: '/PurchasingOrganization'
-										}">
+										}" editable="{Aux>/Editavel}">
 										<core:Item key="{PurchasingOrganization}" text="{PurchasingOrganization} - {PurchasingOrganizationName}" />
 									</Select>
 								</f:fields>
@@ -348,7 +348,7 @@
 								<f:fields>
 									<Select id="purchasingGroup" forceSelection="false" selectedKey="{orderConversion>/purchasingGroup}" items="{
 											path: '/PurchasingGroup'
-										}">
+										}" editable="{Aux>/Editavel}">
 										<core:Item key="{PurchasingGroup}" text="{PurchasingGroup} - {PurchasingGroupName}" />
 									</Select>
 								</f:fields>
@@ -357,7 +357,7 @@
 								<f:fields>
 									<Select id="incotermsClassification" forceSelection="false" selectedKey="{orderConversion>/incotermsClassification}" items="{
 													path: '/IncotermsClassification'
-												}">
+												}" editable="{Aux>/Editavel}">
 										<core:Item key="{IncotermsClassification}" text="{IncotermsClassification} - {IncotermsClassification_Text}" />
 									</Select>
 								</f:fields>
@@ -366,7 +366,7 @@
 								<f:fields>
 									<Select id="paymentTerms" forceSelection="false" selectedKey="{orderConversion>/paymentTerms}" items="{
 													path: '/PaymentTerms'
-												}">
+												}" editable="{Aux>/Editavel}">
 										<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTerms_Text}" />
 									</Select>
 								</f:fields>
@@ -375,7 +375,7 @@
 								<f:fields>
 									<Select id="taxCode" forceSelection="false" selectedKey="{orderConversion>/taxCode}" items="{
 													path: '/TaxCode'
-												}">
+												}" editable="{Aux>/Editavel}">
 										<core:Item key="{TaxCode}" text="{TaxCode} - {TaxCode_Text}" />
 									</Select>
 								</f:fields>
@@ -384,7 +384,7 @@
 								<f:fields>
 									<Select id="storageLocation" forceSelection="false" selectedKey="{orderConversion>/storageLocation}" items="{
 													path: '/StorageLocation'
-												}">
+												}" editable="{Aux>/Editavel}">
 										<core:Item key="{StorageLocation}" text="{StorageLocation} - {StorageLocationDescription}" />
 									</Select>
 								</f:fields>
@@ -397,10 +397,9 @@
 		<footer>
 			<Toolbar>
 				<content>
-					<!-- <Button id="messagePopoverBtn" visible="{= !!${message>/}.length }" icon="{ path: '/', formatter: '.buttonIconFormatter' }" type="{ path: '/', formatter: '.buttonTypeFormatter' }" text="{ path: '/', formatter: '.highestSeverityMessages' }" press=".handleMessagePopoverPress" ariaHasPopup="Dialog" /> -->
 					<ToolbarSpacer/>
 					<Button type="Accept" text="{i18n>save}" press="validateAndPost"/>
-					<Button id="Reject" text="{i18n>cancel}" type="Reject" press="closeDialog" ariaHasPopup="Dialog"/>
+					<Button text="{i18n>cancel}" type="Reject" press="FechaEditar" ariaHasPopup="Dialog"/>
 				</content>
 			</Toolbar>
 		</footer>
