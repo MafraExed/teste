@@ -21,6 +21,22 @@ const Exportacao = function() {
     return contr.run(request.query)
   })
 
+  this.on('READ', "RastreioService.ContractConversion", async request => {
+    const service = await cds.connect.to('db')
+    const {ContractConversion} = service.entities
+    const cqlQuery = cds.parse.cql(
+      `SELECT * FROM ${ContractConversion.name}`
+    )
+
+    try {
+      let log = await service.run(cqlQuery) 
+      console.log(log)
+      return log
+    }catch(err){
+      
+    }
+  })
+
 }
 
 module.exports = Exportacao

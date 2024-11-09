@@ -23,38 +23,51 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension',"sap/ui/model/json/JSONMode
 			let oModelAux = new JSONModel();
 			let objeto = {
 				Editavel: false,
-				Dados: dados
+				Dados: dados,
+				Motivo: ""
 			}
 
 			oModelAux.setData(objeto)
 			this.getView().setModel(oModelAux, "Aux")
 
 			if (this.Cancela){
-				this.Cancela.destroy()
+				this.Cancela.destroy();
 			}
 
 			this.Cancela = sap.ui.xmlfragment("agr.fs.com.trackingnumber.ext.Fragmentos.Cancelar", this)
 			this.getView().addDependent(this.Cancela)
 			this.Cancela.open()
 		},
-		onEditar: function() {
-			let dados = this.base.getExtensionAPI().getSelectedContexts()[0].getObject()
-			let oModelAux = new JSONModel();
-			let objeto = {
-				Editavel: false,
-				Dados: dados
+		onEditar: async function() {
+			let path = this.base.getExtensionAPI().getSelectedContexts()[0].sPath
+			let sService = this.base.getExtensionAPI().getModel().sServiceUrl
+			let oModel = new JSONModel()
+			let url = sService + path
+
+			try {
+				await oModel.loadData(url, null, true, "GET", false, true)
+				let data = oModel.getData()
+
+				let oModelView = new JSONModel()
+				let objeto = {
+					Editavel: false,
+					Dados: data
+				}
+
+				oModelView.setData(objeto)
+				this.getView().setModel(oModelView, "Aux")	
+
+				if (this.Editar){
+					this.Editar.destroy()
+				}
+	
+				this.Editar = sap.ui.xmlfragment("agr.fs.com.trackingnumber.ext.Fragmentos.Editar", this)
+				this.getView().addDependent(this.Editar)
+				this.Editar.open()
+
+			}catch (err){
+				sap.m.MessageBox.error("Erro")
 			}
-
-			oModelAux.setData(objeto)
-			this.getView().setModel(oModelAux, "Aux")
-
-			if (this.Editar){
-				this.Editar.destroy()
-			}
-
-			this.Editar = sap.ui.xmlfragment("agr.fs.com.trackingnumber.ext.Fragmentos.Editar", this)
-			this.getView().addDependent(this.Editar)
-			this.Editar.open()
 		},
 
 		FechaEditar: function(){
@@ -65,6 +78,12 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension',"sap/ui/model/json/JSONMode
 		FechaCancelar: function(){
 			this.Cancela.close()
 			this.Cancela.destroy()
+		},
+
+		onCancela: function(){
+			let oModel = this.getView().getModel("Aux")
+			let Data = oModel.getData().Dados
+			let Motivo = oModel.getData().Motivo
 		}
 	});
 });

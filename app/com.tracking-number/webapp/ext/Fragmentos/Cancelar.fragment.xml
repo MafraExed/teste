@@ -13,7 +13,7 @@
             <ComboBox items="{
 					path: '/AbgruHelpSet',
 					sorter: { path: 'Bezei' }
-				}" width="100%" placeholder="Informe o motivo de recusa">
+				}" selectedKey="{Aux>/Motivo}" width="100%" placeholder="Informe o motivo de recusa">
                 <core:Item key="{Abgru}" text="{Bezei}" />
             </ComboBox>
         </content>
@@ -21,7 +21,7 @@
             <Toolbar>
                 <content>
                     <ToolbarSpacer />
-                    <Button type="Accept" text="{i18n>save}" press="validateAndPost"/>
+                    <Button type="Accept" text="{i18n>save}" press="onCancela"/>
                     <Button text="{i18n>cancel}" type="Reject" press="FechaCancelar"/>
                 </content>
             </Toolbar>

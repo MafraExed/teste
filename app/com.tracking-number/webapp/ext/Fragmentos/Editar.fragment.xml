@@ -7,7 +7,7 @@
 	xmlns:form="sap.ui.comp.smartform"
 	xmlns:sf="sap.ui.comp.smartfield">
 	<Dialog id="order-conversion-dialog" contentWidth="90%" contentHeight="90%" title="{i18n>documentCreationData}">
-		<ObjectHeader id="order-object-header" iconDensityAware="false" responsive="true" fullScreenOptimized="true" title="Rastreio: {Aux>/Dados/Rastreio}" class="sapUiResponsivePadding--header">
+		<ObjectHeader id="order-object-header" iconDensityAware="false" responsive="true" fullScreenOptimized="true" title="Contrato: {Aux>/Dados/ContratoEtanol}" class="sapUiResponsivePadding--header">
 			<ObjectAttribute id="sales-contract-item-objattr" title="{i18n>salesContractItem}" text="{ path: 'SalesContractItem',
 																									   type: 'sap.ui.model.odata.type.String',
 																									   constraints: {
