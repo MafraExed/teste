@@ -24,16 +24,13 @@ const Exportacao = function() {
   this.on('READ', "RastreioService.ContractConversion", async request => {
     const service = await cds.connect.to('db')
     const {ContractConversion} = service.entities
-    const cqlQuery = cds.parse.cql(
-      `SELECT * FROM ${ContractConversion.name}`
-    )
 
-    try {
-      let log = await service.run(cqlQuery) 
-      console.log(log)
-      return log
+    try { 
+      const sQuery = cds.parse.cql(`SELECT FROM ${ContractConversion.name}`)
+
+      return await service.run(sQuery)
     }catch(err){
-      
+      console.log(`Erro ao buscar dados => ${err.message}`)
     }
   })
 
