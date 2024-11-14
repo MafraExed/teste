@@ -3,7 +3,7 @@ sap.ui.define(
     function (Component) {
         "use strict";
 
-        return Component.extend("agr.fs.app.trackingnumber.Component", {
+        return Component.extend("agr.fs.trackingnumber.Component", {
             metadata: {
                 manifest: "json"
             }

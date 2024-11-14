@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "agr.fs.app.trackingnumber",
+    "id": "agr.fs.trackingnumber",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.13.2",
-      "toolsId": "6019f801-1f09-4f9b-a840-f606549c5a92"
+      "toolsId": "34520cc9-ec45-48b1-aed5-6b5857b41d45"
     },
     "dataSources": {
       "mainService": {
@@ -22,6 +22,19 @@
         "settings": {
           "annotations": [],
           "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "agr.fs.tracking-number-display": {
+          "semanticObject": "agr.fs.tracking-number",
+          "action": "display",
+          "title": "{{flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
         }
       }
     }
@@ -61,7 +74,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "agr.fs.app.trackingnumber.i18n.i18n"
+          "bundleName": "agr.fs.trackingnumber.i18n.i18n"
         }
       },
       "": {

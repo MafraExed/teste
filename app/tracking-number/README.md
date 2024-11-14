@@ -1,24 +1,24 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Wed Nov 13 2024 18:07:45 GMT-0300 (Brasilia Standard Time)|
+|**Generation Date and Time**<br>Thu Nov 14 2024 00:55:37 GMT-0300 (Brasilia Standard Time)|
 |**App Generator**<br>@sap/generator-fiori-elements|
 |**App Generator Version**<br>1.13.2|
 |**Generation Platform**<br>Visual Studio Code|
 |**Template Used**<br>List Report Page V4|
 |**Service Type**<br>Local Cap|
 |**Service URL**<br>http://localhost:4004/Rastreio/
-|**Module Name**<br>app.tracking-number|
+|**Module Name**<br>tracking-number|
 |**Application Title**<br>Tracking Number|
 |**Namespace**<br>agr.fs|
 |**UI5 Theme**<br>sap_horizon|
 |**UI5 Version**<br>1.130.0|
-|**Enable Code Assist Libraries**<br>False|
+|**Enable Code Assist Libraries**<br>True|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
 |**Main Entity**<br>ContractConversion|
 
-## app.tracking-number
+## tracking-number
 
 Tracking Number
 
@@ -26,7 +26,7 @@ Tracking Number
 
 -   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  In order to launch the generated app, simply start your CAP project and navigate to the following location in your browser:
 
-http://localhost:4004/app.tracking-number/webapp/index.html
+http://localhost:4004/agr.fs.trackingnumber/index.html
 
 #### Pre-requisites:
 
