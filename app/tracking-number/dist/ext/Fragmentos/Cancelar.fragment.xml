@@ -1,0 +1,30 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        class="sapUiContentPadding"
+        title="Cancelar rastreio: {Aux>/Dados/Rastreio}"
+    >
+        <content>
+            <ComboBox items="{
+					path: '/AbgruHelpSet',
+					sorter: { path: 'Bezei' }
+				}" selectedKey="{Aux>/Motivo}" width="100%" placeholder="Informe o motivo de recusa">
+                <core:Item key="{Abgru}" text="{Bezei}" />
+            </ComboBox>
+        </content>
+        <footer>
+            <Toolbar>
+                <content>
+                    <ToolbarSpacer />
+                    <Button type="Accept" text="{i18n>save}" press="onCancela"/>
+                    <Button text="{i18n>cancel}" type="Reject" press="FechaCancelar"/>
+                </content>
+            </Toolbar>
+        </footer>
+    </Dialog>
+</core:FragmentDefinition>

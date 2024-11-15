@@ -1,0 +1,181 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "agr.fs.trackingnumber",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.13.2",
+            "toolsId": "edaffa0f-0c1f-4115-bddd-81a49fe8aea1"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "Rastreio/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "agr.fs.tracking-number-display": {
+                    "semanticObject": "agr.fs.tracking-number",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.130.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "agr.fs.trackingnumber.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "config": {},
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "ContractConversionList",
+                    "target": "ContractConversionList"
+                }
+            ],
+            "targets": {
+                "ContractConversionList": {
+                    "type": "Component",
+                    "id": "ContractConversionList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/ContractConversion",
+                            "variantManagement": "Page",
+                            "navigation": {},
+                            "initialLoad": "Enabled",
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "columns": {
+                                        "DataField::trackingNumber": {
+                                            "width": "auto"
+                                        },
+                                        "DataField::processType": {
+                                            "width": "auto"
+                                        },
+                                        "DataField::processStatus": {
+                                            "width": "auto"
+                                        },
+                                        "DataField::requestedDeliveryDate": {
+                                            "width": "auto"
+                                        }
+                                    },
+                                    "tableSettings": {
+                                        "enableExport": true,
+                                        "selectAll": false,
+                                        "selectionMode": "Single"
+                                    },
+                                    "actions": {
+                                        "idEditar": {
+                                            "press": ".extension.agr.fs.trackingnumber.ext.controller.Extend.onEdita",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "requiresSelection": true,
+                                            "text": "Editar"
+                                        },
+                                        "idCancelar": {
+                                            "press": ".extension.agr.fs.trackingnumber.ext.controller.Extend.onCancelar",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "requiresSelection": true,
+                                            "text": "Cancelar"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.fe.templates.ListReport.ListReportController": {
+                        "controllerName": "agr.fs.trackingnumber.ext.controller.Extend"
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "control-tower"
+    }
+}
