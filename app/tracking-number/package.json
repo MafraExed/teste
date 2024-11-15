@@ -9,16 +9,14 @@
         "sapui5"
     ],
     "main": "webapp/index.html",
+    "dependencies": {},
     "devDependencies": {
-        "@sap/eslint-plugin-ui5-jsdocs": "2.0.5",
-        "@sap/ui5-builder-webide-extension": "^1.1.8",
-        "@sap/ux-specification": "UI5-1.130",
-        "@sap/ux-ui5-tooling": "^1.15.4",
-        "@sapui5/ts-types": "~1.130.0",
         "@ui5/cli": "^3.0.0",
-        "eslint": "8.57.0",
-        "mbt": "^1.2.18",
-        "ui5-task-zipper": "^0.5.0"
+        "@sap/ux-ui5-tooling": "1",
+        "@sap/ux-specification": "UI5-1.130",
+        "@sap/ui5-builder-webide-extension": "^1.1.8",
+        "ui5-task-zipper": "^0.5.0",
+        "mbt": "^1.2.18"
     },
     "scripts": {
         "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",

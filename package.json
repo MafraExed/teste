@@ -1,70 +1,69 @@
 {
-    "name": "fs-agr-tracking-number",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@cap-js/hana": "^1",
-        "@sap-cloud-sdk/connectivity": "^3.22.2",
-        "@sap-cloud-sdk/http-client": "^3.22.2",
-        "@sap/cds": "^8",
-        "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
-        "@sap/xsenv": "^5.4.0",
-        "@sap/xssec": "^4",
-        "choco": "^0.2.1",
-        "express": "^4"
+  "name": "fs-agr-tracking-number",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^1",
+    "@sap-cloud-sdk/connectivity": "^3.22.2",
+    "@sap-cloud-sdk/http-client": "^3.22.2",
+    "@sap/cds": "^8",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "@sap/xsenv": "^5.4.0",
+    "@sap/xssec": "^4",
+    "choco": "^0.2.1",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "^0.6",
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^8",
+    "rimraf": "^3.0.2",
+    "cds-plugin-ui5": "^0.6.13"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "undeploy": "cf undeploy fs-agr-tracking-number --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "hana"
+      },
+      "[production]": {
+        "auth": "xsuaa",
+        "db": "hana"
+      },
+      "ZC_SD_TRANS_STATUS_CT_CDS": {
+        "kind": "odata-v2",
+        "model": "srv/external/ZC_SD_TRANS_STATUS_CT_CDS"
+      },
+      "ZGW_SD_CONTRACT_DATA_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/ZGW_SD_CONTRACT_DATA_SRV"
+      },
+      "ZGW_SD_SALESORDER_CANCEL_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/ZGW_SD_SALESORDER_CANCEL_SRV"
+      }
     },
-    "devDependencies": {
-        "@cap-js/cds-types": "^0.6",
-        "@cap-js/sqlite": "^1",
-        "@sap/cds-dk": "^8",
-        "rimraf": "^3.0.2",
-        "cds-plugin-ui5": "^0.6.13"
-    },
-    "scripts": {
-        "start": "cds-serve",
-        "undeploy": "cf undeploy fs-agr-tracking-number --delete-services --delete-service-keys --delete-service-brokers",
-        "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
-        "build:cf": "npm run build || echo 'No build script found'"
-    },
-    "cds": {
-        "requires": {
-            "ZI_SD_RASTREIO_CT_CDS": {
-                "kind": "odata-v2",
-                "model": "srv/external/ZI_SD_RASTREIO_CT_CDS"
-            },
-            "[production]": {
-                "auth": "xsuaa",
-                "db": "hana"
-            },
-            "ZI_SD_MM_STATUS_CT_CDS": {
-                "kind": "odata-v2",
-                "model": "srv/external/ZI_SD_MM_STATUS_CT_CDS"
-            },
-            "ZGW_SD_SALESORDER_CANCEL_SRV": {
-                "kind": "odata-v2",
-                "model": "srv/external/ZGW_SD_SALESORDER_CANCEL_SRV"
-            },
-            "ZC_SD_MM_STATUS_CT_CDS": {
-                "kind": "odata-v2",
-                "model": "srv/external/ZC_SD_MM_STATUS_CT_CDS"
-            }
-        },
-        "sql": {
-            "native_hana_associations": false
-        }
-    },
-    "sapux": [
-        "app/com.tracking-number",
-        "app/project1",
-        "app/app.tracking-number",
-        "app/app.tracking-number",
-        "app/tracking-number"
-    ],
-    "workspaces": [
-        "app/*"
-    ]
+    "sql": {
+      "native_hana_associations": false
+    }
+  },
+  "sapux": [
+    "app/com.tracking-number",
+    "app/project1",
+    "app/app.tracking-number",
+    "app/app.tracking-number",
+    "app/tracking-number",
+    "app/tracking-number"
+  ],
+  "workspaces": [
+    "app/*"
+  ]
 }

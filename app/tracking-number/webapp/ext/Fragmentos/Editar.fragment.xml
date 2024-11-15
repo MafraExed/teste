@@ -7,25 +7,20 @@
 	xmlns:form="sap.ui.comp.smartform"
 	xmlns:sf="sap.ui.comp.smartfield">
 	<Dialog id="order-conversion-dialog" contentWidth="90%" contentHeight="90%" title="{i18n>documentCreationData}">
-		<ObjectHeader id="order-object-header" iconDensityAware="false" responsive="true" fullScreenOptimized="true" title="Contrato: {Aux>/Dados/ContratoEtanol}" class="sapUiResponsivePadding--header">
-			<ObjectAttribute id="sales-contract-item-objattr" title="{i18n>salesContractItem}" text="{ path: 'SalesContractItem',
+		<ObjectHeader id="order-object-header" iconDensityAware="false" responsive="true" fullScreenOptimized="true" title="Contrato: {Aux>/Contrato/SalesContract}" class="sapUiResponsivePadding--header">
+			<ObjectAttribute id="sales-contract-item-objattr" title="{i18n>salesContractItem}" text="{ path: 'Aux>/Contrato/SalesContractItem',
 																									   type: 'sap.ui.model.odata.type.String',
 																									   constraints: {
 																									   	isDigitSequence: true,
 																										maxLength: 6
 																									   }
 																									  }"/>
-			<ObjectAttribute id="sold-to-party-objattr" title="{i18n>soldToParty}" text="{SoldToParty} - {to_BusinessPartner/BusinessPartnerFullName}"/>
-			<ObjectAttribute id="material-objattr" title="{i18n>material}" text="{Material} - {to_Material/Material_Text}"/>
-			<ObjectAttribute id="creation-date-objattr" title="{i18n>creationDate}" text="{ 'path': 'CreationDate', 
-											  									            'type': 'sap.ui.model.type.Date',
-																							'formatOptions': {
-																								'pattern': 'dd/MM/yyyy'
-																							}
-																						  }"/>
-			<ObjectAttribute id="total-quantity-objattr" title="{i18n>totalQuantity}" text="{ parts: ['OrderQuantity', 'ScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
-			<ObjectAttribute id="scheduled-quantity-objattr" title="{i18n>scheduledQuantity}" text="{ parts: ['ScheduledQuantity', 'ScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
-			<ObjectAttribute id="available-quantity-objattr" title="{i18n>availableQuantity}" text="{ parts: ['AvailableQuantity', 'ScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+			<ObjectAttribute id="sold-to-party-objattr" title="{i18n>soldToParty}" text="{Aux>/Contrato/SoldToParty} - {Aux>/Contrato/to_BusinessPartner/BusinessPartnerFullName}"/>
+			<ObjectAttribute id="material-objattr" title="{i18n>material}" text="{Aux>/Contrato/Material} - {Aux>/Contrato/to_Material/Material_Text}"/>
+			<ObjectAttribute id="creation-date-objattr" title="{i18n>creationDate}" text="{Aux>/Contrato/CreationDate}"/>
+			<ObjectAttribute id="total-quantity-objattr" title="{i18n>totalQuantity}" text="{ parts: ['Aux>/Contrato/OrderQuantity', 'Aux>/Contrato/ScheduledQuantityUnit'], formatter: '.formatQuantity' }"/>
+			<ObjectAttribute id="scheduled-quantity-objattr" title="{i18n>scheduledQuantity}" text="{ parts: ['Aux>/Contrato/ScheduledQuantity', 'Aux>/Contrato/ScheduledQuantityUnit'], formatter: '.formatQuantity' }"/>
+			<ObjectAttribute id="available-quantity-objattr" title="{i18n>availableQuantity}" text="{ parts: ['Aux>/Contrato/AvailableQuantity', 'Aux>/Contrato/ScheduledQuantityUnit'], formatter: '.formatQuantity' }"/>
 		</ObjectHeader>
 		<f:Form id="intercompanySalesOrder-form" editable="true">
 			<f:title>
@@ -39,27 +34,22 @@
 					<f:formElements>
 						<f:FormElement label="{i18n>contractNumber}">
 							<f:fields>
-								<Input id="intercompanySalesContract" value="{orderConversion>/intercompanySalesContract}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onIntercompanyContractHelp" editable="{Aux>/Editavel}"/>
+								<Input id="intercompanySalesContract" value="{Aux>/InterCompanyContratoVenda/SalesContract}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onIntercompanyContractHelp" editable="{Aux>/Editavel}"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>soldToParty}" visible="{orderConversion>/intercompanySelected}">
+						<f:FormElement label="{i18n>soldToParty}">
 							<f:fields>
-								<Text text="{orderConversion>/intercompanySoldToParty} - {orderConversion>/intercompanySoldToPartyDescription}"/>
+								<Text text="{Aux>/InterCompanyContratoVenda/SoldToParty} - {Aux>/Tracking/intercompanySoldToPartyDescription}"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>creationDate}" visible="{orderConversion>/intercompanySelected}">
+						<f:FormElement label="{i18n>creationDate}">
 							<f:fields>
-								<Text text="{ 'path': 'orderConversion>/intercompanyCreationDate', 
-											  'type': 'sap.ui.model.type.Date',
-											  'formatOptions': {
-												'pattern': 'dd/MM/yyyy'
-											  }
-											}"/>
+								<Text text="{Aux>/InterCompanyContratoVenda/CreationDate}"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>salesContractItem}" visible="{orderConversion>/intercompanySelected}">
+						<f:FormElement label="{i18n>salesContractItem}">
 							<f:fields>
-								<Text text="{ path: 'orderConversion>/intercompanySalesContractItem',
+								<Text text="{ path: 'Aux>/InterCompanyContratoVenda/SalesContractItem',
 											  type: 'sap.ui.model.odata.type.String',
 											  constraints: {
 											   isDigitSequence: true,
@@ -68,24 +58,24 @@
 											}"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>material}" visible="{orderConversion>/intercompanySelected}">
+						<f:FormElement label="{i18n>material}">
 							<f:fields>
-								<Text text="{orderConversion>/intercompanyMaterial} - {orderConversion>/intercompanyMaterialDescription}" />
+								<Text text="{Aux>/InterCompanyContratoVenda/Material} - {Aux>/Tracking/intercompanyMaterialDescription}" />
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>totalQuantity}" visible="{orderConversion>/intercompanySelected}">
+						<f:FormElement label="{i18n>totalQuantity}">
 							<f:fields>
-								<Text text="{ parts: ['orderConversion>/intercompanyTotalQuantity', 'orderConversion>/intercompanyScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+								<Text text="{ parts: ['Aux>/InterCompanyContratoVenda/OrderQuantity', 'Aux>/InterCompanyContratoVenda/ScheduledQuantityUnit'], formatter: '.formatQuantity' }"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>scheduledQuantity}" visible="{orderConversion>/intercompanySelected}">
+						<f:FormElement label="{i18n>scheduledQuantity}" visible="{Aux>/Tracking/intercompanySelected}">
 							<f:fields>
-								<Text text="{ parts: ['orderConversion>/intercompanyScheduledQuantity', 'orderConversion>/intercompanyScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+								<Text text="{ parts: ['Aux>/InterCompanyContratoVenda/ScheduledQuantity', 'Aux>/InterCompanyContratoVenda/ScheduledQuantityUnit'], formatter: '.formatQuantity' }"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="{i18n>availableQuantity}" visible="{orderConversion>/intercompanySelected}">
+						<f:FormElement label="{i18n>availableQuantity}" visible="{Aux>/Tracking/intercompanySelected}">
 							<f:fields>
-								<Text text="{ parts: ['orderConversion>/intercompanyAvailableQuantity', 'orderConversion>/intercompanyScheduledQuantityUnit'], formatter: '.formatter.formatQuantity' }"/>
+								<Text text="{ parts: ['Aux>/InterCompanyContratoVenda/AvailableQuantity', 'Aux>/InterCompanyContratoVenda/ScheduledQuantityUnit'], formatter: '.formatQuantity' }"/>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
@@ -106,17 +96,17 @@
 							<f:formElements>
 								<f:FormElement label="{i18n>processType}">
 									<f:fields>
-										<Select id="processType" forceSelection="false" selectedKey="{orderConversion>/processType}" items="{
-												path: 'orderTypeCollection>/OrderType',
+										<Select id="processType" forceSelection="false" selectedKey="{Aux>/Tracking/processType}" items="{
+												path: 'Aux>/OrderType',
 												sorter: { path: 'key' }
 											}" editable="{Aux>/Editavel}">
-											<core:Item key="{orderTypeCollection>key}" text="{orderTypeCollection>value}" />
+											<core:Item key="{Aux>key}" text="{Aux>value}" />
 										</Select>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>salesOrganization}">
 									<f:fields>
-										<Select id="salesOrganization" forceSelection="false" selectedKey="{orderConversion>/salesOrganization}" items="{
+										<Select id="salesOrganization" forceSelection="false" selectedKey="{Aux>/Tracking/salesOrganization}" items="{
 												path: '/SalesOrganization',
 												parameters: {
 													expand: 'to_Text'
@@ -128,7 +118,7 @@
 								</f:FormElement>
 								<f:FormElement label="{i18n>distributionChannel}">
 									<f:fields>
-										<Select id="distributionChannel" forceSelection="false" selectedKey="{orderConversion>/distributionChannel}" items="{
+										<Select id="distributionChannel" forceSelection="false" selectedKey="{Aux>/Tracking/distributionChannel}" items="{
 												path: '/DistributionChannel',
 												parameters: { 
 													expand: 'to_Text'
@@ -140,7 +130,7 @@
 								</f:FormElement>
 								<f:FormElement label="{i18n>organizationDivision}">
 									<f:fields>
-										<Select id="organizationDivision" forceSelection="false" selectedKey="{orderConversion>/organizationDivision}" items="{
+										<Select id="organizationDivision" forceSelection="false" selectedKey="{Aux>/Tracking/organizationDivision}" items="{
 												path: '/Division',
 												parameters: { 
 													expand: 'to_Text'
@@ -152,122 +142,110 @@
 								</f:FormElement>
 								<f:FormElement label="{i18n>withdrawalDate}">
 									<f:fields>
-										<DatePicker id="requestedDeliveryDate" valueFormat="yyyy-MM-dd" value="{ 'path': 'orderConversion>/requestedDeliveryDate', 
-																						    			  'type': 'sap.ui.model.type.Date',
-																										  'formatOptions': {
-																											'pattern': 'dd/MM/yyyy'
-																										  }
-																										}" required="true" width="100%" editable="{Aux>/Editavel}"/>
+										<DatePicker id="requestedDeliveryDate" value="{Aux>/Tracking/requestedDeliveryDate}" required="true" width="100%" editable="true"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>soldToParty}">
 									<f:fields>
-										<Input id="soldToParty" app:weeklyProperty="soldToParty" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
+										<Input id="soldToParty" value="{Aux>/Tracking/soldToParty}" app:weeklyProperty="soldToParty" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>supplierBrokers}">
 									<f:fields>
-										<Input id="partnerBroker" app:weeklyProperty="partnerBroker" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp" editable="{Aux>/Editavel}"/>
+										<Input id="partnerBroker" value="{Aux>/Tracking/partnerBroker}" app:weeklyProperty="partnerBroker" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>customerReference}">
 									<f:fields>
-										<Input id="purchaseOrderByCustomer" value="{ path : 'orderConversion>/purchaseOrderByCustomer',
+										<Input id="purchaseOrderByCustomer" value="{ path : 'Aux>/Tracking/purchaseOrderByCustomer',
 																					 type : 'sap.ui.model.type.String',
 																					 constraints : {
 																					   minLength: 1,
 																					   maxLength: 80 }
-																			}" editable="{Aux>/Editavel}"/>
+																			}" editable="true"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>paymentMethod}">
 									<f:fields>
-										<Select id="paymentMethod" forceSelection="false" selectedKey="{orderConversion>/paymentMethod}" items="{
+										<Select id="paymentMethod" forceSelection="false" selectedKey="{Aux>/Tracking/paymentMethod}" items="{
 												path: '/PaymentMethod',
 												filters : [
             										{ path : 'Country', operator : 'EQ', value1 : 'BR'}
         										]
-											}" editable="{Aux>/Editavel}">
+											}" editable="true">
 											<core:Item key="{PaymentMethod}" text="{PaymentMethod} - {PaymentMethodName}" />
 										</Select>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>effectiveDate}">
 									<f:fields>
-										<DatePicker id="fixedValueDate" valueFormat="yyyy-MM-dd" value="{ 'path': 'orderConversion>/fixedValueDate', 
-																						    			  'type': 'sap.ui.model.type.Date',
-																										  'formatOptions': {
-																											'pattern': 'dd/MM/yyyy'
-																										  }
-																										}" required="true" width="100%" editable="{Aux>/Editavel}"/>
+										<DatePicker id="fixedValueDate" value="{Aux>/Tracking/fixedValueDate}" required="true" width="100%" editable="true"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>receivingCustomer}">
 									<f:fields>
-										<Input id="partnerReceiver" app:weeklyProperty="partnerReceiver" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
+										<Input id="partnerReceiver" value="{Aux>/Tracking/partnerReceiver}" app:weeklyProperty="partnerReceiver" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>seller}">
 									<f:fields>
-										<Input id="partnerSales" app:weeklyProperty="partnerSales" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
+										<Input id="partnerSales" value="{Aux>/Tracking/partnerSales}" app:weeklyProperty="partnerSales" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>customerReferenceDate}">
 									<f:fields>
-										<DatePicker id="customerReferenceDate" valueFormat="yyyy-MM-dd" value="{ 'path': 'orderConversion>/customerReferenceDate', 
-																						    			  'type': 'sap.ui.model.type.Date',
-																										  'formatOptions': {
-																											'pattern': 'dd/MM/yyyy'
-																										  }
-																										}" required="true" width="100%" editable="{Aux>/Editavel}"/>
+										<DatePicker id="customerReferenceDate" valueFormat="yyyy-MM-dd" value="{Aux>/Tracking/customerReferenceDate}" required="true" width="100%" editable="true"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>harvest}">
 									<f:fields>
-										<Select id="harvest" forceSelection="false" selectedKey="{orderConversion>/harvest}" items="{
+										<Select id="harvest" forceSelection="false" selectedKey="{Aux>/Tracking/harvest}" items="{
 												path: '/Harvest'
-											}" editable="{Aux>/Editavel}">
+											}" editable="true">
 											<core:Item key="{Harvest}" text="{Harvest} - {HarvestDescription}" />
 										</Select>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>quantity}">
 									<f:fields>
-										<Input id="Number" type="Number" value="{ path : 'orderConversion>/requestedQuantity',
+										<Input id="Number" type="Number" value="{ path : 'Aux>/Tracking/requestedQuantity',
 																				  type : 'sap.ui.model.type.String',
 																				  constraints : {
 																				    minLength: 1,
 																					maxLength: 20
 																			      }
-																				}" editable="{Aux>/Editavel}"/>
+																				}" editable="true"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>unloadCustomer}">
 									<f:fields>
-										<Input id="partnerUnload" app:weeklyProperty="partnerUnload" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
+										<Input id="partnerUnload" value="{Aux>/Tracking/partnerUnload}" app:weeklyProperty="partnerUnload" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onCustomerValueHelp" editable="{Aux>/Editavel}"/>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>paymentCondition}">
 									<f:fields>
-										<Select id="customerPaymentTerms" forceSelection="false" selectedKey="{orderConversion>/customerPaymentTerms}" items="{
-												path: '/PaymentTerms'
-											}" editable="{Aux>/Editavel}">
-											<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTerms_Text}" />
+										<Select id="customerPaymentTerms" forceSelection="false" selectedKey="{Aux>/Tracking/customerPaymentTerms}" items="{
+												path: '/PaymentTermsText',
+												filters : [
+            										{ path : 'Language', operator : 'EQ', value1 : 'PT'}
+        										]
+											}" editable="true">
+											<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTermsName}" />
 										</Select>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>priceListType}">
 									<f:fields>
-										<Select id="pricingListType" forceSelection="false" selectedKey="{orderConversion>/pricingListType}" items="{
+										<Select id="pricingListType" forceSelection="false" selectedKey="{Aux>/Tracking/pricingListType}" items="{
 												path: '/PriceList'
-											}" editable="{Aux>/Editavel}">
+											}" editable="true">
 											<core:Item key="{Pricelist}" text="{Pricelist} - {Pricelist_Text}" />
 										</Select>
 									</f:fields>
 								</f:FormElement>
 								<f:FormElement label="{i18n>grossAmount}">
 									<f:fields>
-										<Input id="grossAmount" type="Number" value="{ path : 'orderConversion>/grossAmount',
+										<Input id="grossAmount" type="Number" value="{ path : 'Aux>/Tracking/grossAmount',
 																					   type : 'sap.ui.model.type.String',
 																					   constraints : {
 																					     minLength: 1,
@@ -285,7 +263,7 @@
 				</layoutData>
 			</VBox>
 			<VBox class="fs-table-margin">
-				<Table id="shipping-divisions" items="{orderConversion>/shippingDivisions}" headerText="{i18n>shippingDivisions}">
+				<Table id="shipping-divisions" items="{Aux>/Tracking/shippingDivisions}" headerText="{i18n>shippingDivisions}">
 					<columns>
 						<Column>
 							<Text text="{i18n>loadingDate}"/>
@@ -297,8 +275,8 @@
 					<items>
 						<ColumnListItem vAlign="Middle">
 							<cells>
-								<Text text="{orderConversion>loadingDate}"/>
-								<Text text="{orderConversion>scheduledQuantity}"/>
+								<Text text="{Aux>/Tracking/loadingDate}"/>
+								<Text text="{Aux>/Tracking/scheduledQuantity}"/>
 							</cells>
 						</ColumnListItem>
 					</items>
@@ -322,7 +300,7 @@
 							<f:FormElement label="{i18n>requester}">
 								<f:fields>
 									<Input id="requisitionerName" maxLength="12" value="{
-																					path : 'orderConversion>/requisitionerName',
+																					path : 'Aux>/Tracking/requisitionerName',
 																					type : 'sap.ui.model.type.String',
 																					constraints : { minLength: 1,
 																									maxLength: 12
@@ -332,12 +310,12 @@
 							</f:FormElement>
 							<f:FormElement label="{i18n>supplier}">
 								<f:fields>
-									<Input id="supplier" app:weeklyProperty="supplier" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp" editable="{Aux>/Editavel}"/>
+									<Input id="supplier" value="{Aux>/Tracking/supplier}" app:weeklyProperty="supplier" showValueHelp="true" valueHelpOnly="true" valueHelpRequest=".onSupplierValueHelp" editable="{Aux>/Editavel}"/>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>purchaseOrganization}">
 								<f:fields>
-									<Select id="purchasingOrganization" forceSelection="false" selectedKey="{orderConversion>/purchasingOrganization}" items="{
+									<Select id="purchasingOrganization" forceSelection="false" selectedKey="{Aux>/Tracking/purchasingOrganization}" items="{
 											path: '/PurchasingOrganization'
 										}" editable="{Aux>/Editavel}">
 										<core:Item key="{PurchasingOrganization}" text="{PurchasingOrganization} - {PurchasingOrganizationName}" />
@@ -346,7 +324,7 @@
 							</f:FormElement>
 							<f:FormElement label="{i18n>purchaseGroup}">
 								<f:fields>
-									<Select id="purchasingGroup" forceSelection="false" selectedKey="{orderConversion>/purchasingGroup}" items="{
+									<Select id="purchasingGroup" forceSelection="false" selectedKey="{Aux>/Tracking/purchasingGroup}" items="{
 											path: '/PurchasingGroup'
 										}" editable="{Aux>/Editavel}">
 										<core:Item key="{PurchasingGroup}" text="{PurchasingGroup} - {PurchasingGroupName}" />
@@ -355,7 +333,7 @@
 							</f:FormElement>
 							<f:FormElement label="{i18n>incoterms}">
 								<f:fields>
-									<Select id="incotermsClassification" forceSelection="false" selectedKey="{orderConversion>/incotermsClassification}" items="{
+									<Select id="incotermsClassification" forceSelection="false" selectedKey="{Aux>/Tracking/incotermsClassification}" items="{
 													path: '/IncotermsClassification'
 												}" editable="{Aux>/Editavel}">
 										<core:Item key="{IncotermsClassification}" text="{IncotermsClassification} - {IncotermsClassification_Text}" />
@@ -364,16 +342,19 @@
 							</f:FormElement>
 							<f:FormElement label="{i18n>paymentCondition}">
 								<f:fields>
-									<Select id="paymentTerms" forceSelection="false" selectedKey="{orderConversion>/paymentTerms}" items="{
-													path: '/PaymentTerms'
-												}" editable="{Aux>/Editavel}">
-										<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTerms_Text}" />
-									</Select>
+									<Select id="paymentTerms" forceSelection="false" selectedKey="{Aux>/Tracking/paymentTerms}" items="{
+												path: '/PaymentTermsText',
+												filters : [
+            										{ path : 'Language', operator : 'EQ', value1 : 'PT'}
+        										]
+											}" editable="{Aux>/Editavel}">
+											<core:Item key="{PaymentTerms}" text="{PaymentTerms} - {PaymentTermsName}" />
+										</Select>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>purchaseIVA}">
 								<f:fields>
-									<Select id="taxCode" forceSelection="false" selectedKey="{orderConversion>/taxCode}" items="{
+									<Select id="taxCode" forceSelection="false" selectedKey="{Aux>/Tracking/taxCode}" items="{
 													path: '/TaxCode'
 												}" editable="{Aux>/Editavel}">
 										<core:Item key="{TaxCode}" text="{TaxCode} - {TaxCode_Text}" />
@@ -382,7 +363,7 @@
 							</f:FormElement>
 							<f:FormElement label="{i18n>storageLocation}">
 								<f:fields>
-									<Select id="storageLocation" forceSelection="false" selectedKey="{orderConversion>/storageLocation}" items="{
+									<Select id="storageLocation" forceSelection="false" selectedKey="{Aux>/Tracking/storageLocation}" items="{
 													path: '/StorageLocation'
 												}" editable="{Aux>/Editavel}">
 										<core:Item key="{StorageLocation}" text="{StorageLocation} - {StorageLocationDescription}" />
@@ -398,7 +379,7 @@
 			<Toolbar>
 				<content>
 					<ToolbarSpacer/>
-					<Button type="Accept" text="{i18n>save}" press="validateAndPost"/>
+					<Button type="Accept" text="{i18n>save}" press="onSalvaEdicao"/>
 					<Button text="{i18n>cancel}" type="Reject" press="FechaEditar" ariaHasPopup="Dialog"/>
 				</content>
 			</Toolbar>

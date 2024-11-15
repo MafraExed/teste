@@ -1,7 +1,7 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Thu Nov 14 2024 00:55:37 GMT-0300 (Brasilia Standard Time)|
+|**Generation Date and Time**<br>Thu Nov 14 2024 18:51:20 GMT-0300 (Brasilia Standard Time)|
 |**App Generator**<br>@sap/generator-fiori-elements|
 |**App Generator Version**<br>1.13.2|
 |**Generation Platform**<br>Visual Studio Code|
@@ -13,7 +13,7 @@
 |**Namespace**<br>agr.fs|
 |**UI5 Theme**<br>sap_horizon|
 |**UI5 Version**<br>1.130.0|
-|**Enable Code Assist Libraries**<br>True|
+|**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
 |**Main Entity**<br>ContractConversion|

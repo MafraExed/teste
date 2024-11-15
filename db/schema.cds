@@ -6,7 +6,7 @@ using {
 namespace fs.agr.ct.trackingnumber.db;
 
 @cds.persistence.exists
- entity ContractConversion : cuid, managed {
+entity ContractConversion : cuid, managed {
   processType                   : String(20);
   processStatus                 : String(5);
   trackingNumber                : String(10);

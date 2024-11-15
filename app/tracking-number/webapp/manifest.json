@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.13.2",
-      "toolsId": "34520cc9-ec45-48b1-aed5-6b5857b41d45"
+      "toolsId": "edaffa0f-0c1f-4115-bddd-81a49fe8aea1"
     },
     "dataSources": {
       "mainService": {
@@ -31,6 +31,7 @@
           "semanticObject": "agr.fs.tracking-number",
           "action": "display",
           "title": "{{flpTitle}}",
+          "subTitle": "{{flpSubtitle}}",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
@@ -102,11 +103,6 @@
           "pattern": ":?query:",
           "name": "ContractConversionList",
           "target": "ContractConversionList"
-        },
-        {
-          "pattern": "ContractConversion({key}):?query:",
-          "name": "ContractConversionObjectPage",
-          "target": "ContractConversionObjectPage"
         }
       ],
       "targets": {
@@ -118,25 +114,57 @@
             "settings": {
               "contextPath": "/ContractConversion",
               "variantManagement": "Page",
-              "navigation": {
-                "ContractConversion": {
-                  "detail": {
-                    "route": "ContractConversionObjectPage"
+              "navigation": {},
+              "initialLoad": "Enabled",
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "columns": {
+                    "DataField::trackingNumber": {
+                      "width": "auto"
+                    },
+                    "DataField::processType": {
+                      "width": "auto"
+                    },
+                    "DataField::processStatus": {
+                      "width": "auto"
+                    },
+                    "DataField::requestedDeliveryDate": {
+                      "width": "auto"
+                    }
+                  },
+                  "tableSettings": {
+                    "enableExport": true,
+                    "selectAll": false,
+                    "selectionMode": "Single"
+                  },
+                  "actions": {
+                    "idEditar": {
+                      "press": ".extension.agr.fs.trackingnumber.ext.controller.Extend.onEdita",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Editar"
+                    },
+                    "idCancelar": {
+                      "press": ".extension.agr.fs.trackingnumber.ext.controller.Extend.onCancelar",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Cancelar"
+                    }
                   }
                 }
               }
             }
           }
-        },
-        "ContractConversionObjectPage": {
-          "type": "Component",
-          "id": "ContractConversionObjectPage",
-          "name": "sap.fe.templates.ObjectPage",
-          "options": {
-            "settings": {
-              "editableHeaderContent": false,
-              "contextPath": "/ContractConversion"
-            }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "agr.fs.trackingnumber.ext.controller.Extend"
           }
         }
       }

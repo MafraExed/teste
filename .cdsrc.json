@@ -13,32 +13,32 @@
     },
     "[development]": {
       "db": {
-        "kind": "sqlite"
+        "kind": "hana"
       }
     },
-    "ZI_SD_RASTREIO_CT_CDS": {
+    "ZC_SD_TRANS_STATUS_CT_CDS": {
       "kind": "odata-v2",
-      "model": "srv/external/ZI_SD_RASTREIO_CT_CDS",
+      "model": "srv/external/ZC_SD_TRANS_STATUS_CT_CDS",
       "csrf": true,
       "csrfInBatch": true,
       "credentials": {
         "destination": "S4HANA",
-        "path": "/sap/opu/odata/sap/ZI_SD_RASTREIO_CT_CDS",
+        "path": "/sap/opu/odata/sap/ZC_SD_TRANS_STATUS_CT_CDS",
+        "requestTimeout": 600000
+      }
+    },
+    "ZGW_SD_CONTRACT_DATA_SRV": {
+      "kind": "odata-v2",
+      "model": "srv/external/ZGW_SD_CONTRACT_DATA_SRV",
+      "csrf": true,
+      "csrfInBatch": true,
+      "credentials": {
+        "destination": "S4HANA",
+        "path": "/sap/opu/odata/sap/ZGW_SD_CONTRACT_DATA_SRV",
         "requestTimeout": 600000
       }
     },
     "ZGW_SD_SALESORDER_CANCEL_SRV": {
-      "kind": "odata-v2",
-      "model": "srv/external/ZGW_SD_SALESORDER_CANCEL_SRV",
-      "csrf": true,
-      "csrfInBatch": true,
-      "credentials": {
-        "destination": "S4HANA",
-        "path": "/sap/opu/odata/sap/ZGW_SD_SALESORDER_CANCEL_SRV",
-        "requestTimeout": 600000
-      }
-    },
-    "ZC_SD_MM_STATUS_CT_CDS": {
       "kind": "odata-v2",
       "model": "srv/external/ZGW_SD_SALESORDER_CANCEL_SRV",
       "csrf": true,
