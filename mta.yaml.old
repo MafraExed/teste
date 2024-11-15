@@ -1,0 +1,151 @@
+_schema-version: "3.1"
+ID: fs-agr-tracking-number
+description: Control Tower - Tracking Number
+version: 1.0.0
+modules:
+- name: fs-agr-tracking-number-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: fs-agr-tracking-number-db
+  - name: fs-agr-tracking-number-auth
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm
+- name: fs-agr-tracking-number-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: fs-agr-tracking-number-db
+    properties:
+      TARGET_CONTAINER: ~{hdi-container-service}
+  - name: CT_ORDER_CVR-grantor
+    group: SERVICE_REPLACEMENTS
+    properties:
+      key: CT_ORDER_CVR-syn-grantor
+      service: ~{CT_ORDER_CVR-synonym-grantor-service}
+  parameters:
+    buildpack: nodejs_buildpack
+- name: fs-agr-tracking-number-app-content
+  type: com.sap.application.content
+  build-parameters: 
+    no-source: true
+  requires:
+    - name: fs-agr-ct-trackingnumber_html_repo_host
+      parameters:
+        service-key: 
+          name: fs-agr-ct-trackingnumber_html_key
+    - name: fs-agr-tracking-number-auth
+      parameters:
+        service-key: 
+          name: fs-agr-tracking-number-auth_key
+    - name: fs-agr-tracking-number-destination-service
+      parameters:
+        content-target: true
+  parameters:
+    content:
+      instance:
+        existing_destination_policy: update
+        destinations:
+          - Name: fs-agr-ct-trackingnumber_html_repo_host
+            ServiceInstanceName: fs-agr-ct-trackingnumber_html_repo_host
+            ServiceKeyName: fs-agr-ct-trackingnumber_html_key
+            sap.cloud.service: control-tower
+          - Name: fs-agr-tracking-number-auth
+            Authentication: OAuth2UserTokenExchange
+            ServiceInstanceName: fs-agr-tracking-number-auth
+            ServiceKeyName: fs-agr-tracking-number-auth_key
+            sap.cloud.service: control-tower
+- name: fs-agr-tracking-number-deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: fs-agr-ct-trackingnumber_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - agrfstrackingnumber.zip
+      name: agrfstrackingnumber
+      target-path: resources/
+- name: agrfstrackingnumber
+  type: html5
+  path: app/tracking-number
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: fs-agr-tracking-number-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    config:
+      schema: CT_TRACKINGNUMBER
+    service: hana
+    service-plan: hdi-shared
+  properties:
+    hdi-container-service: ${service-name}
+- name: fs-agr-tracking-number-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: fs-agr-tracking-number-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: fs-agr-ct-trackingnumber_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: fs-agr-ct-trackingnumber_html_repo_host
+    service-plan: app-host
+- name: CT_ORDER_CVR-grantor
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: fs-agr-ct-contractconv-db
+  properties:
+    CT_ORDER_CVR-synonym-grantor-service: ${service-name}
+- name: fs-agr-tracking-number-destination-service
+  type: org.cloudfoundry.managed-service
+  requires:
+    - name: srv-api
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            Name: tracking-number
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: fs-agr-tracking-number-destination-service
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx cds build --production
