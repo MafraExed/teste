@@ -76,12 +76,12 @@ modules:
             - Name: fs-agr-tracking-number-repo-host
               ServiceInstanceName: fs-agr-tracking-number-html5-srv
               ServiceKeyName: fs-agr-tracking-number-repo-host-key
-              sap.cloud.service: control-tower
+              sap.cloud.service: control_tower
             - Name: fs-agr-tracking-number-auth
               Authentication: OAuth2UserTokenExchange
               ServiceInstanceName: fs-agr-tracking-number-auth
               ServiceKeyName: fs-agr-tracking-number-repo-auth-key
-              sap.cloud.service: control-tower
+              sap.cloud.service: control_tower
  
   - name: fsagrtrackingnumber
     type: html5
@@ -119,6 +119,17 @@ resources:
       config:
         HTML5Runtime_enabled: true
         init_data:
+          subaccount:
+            destinations:
+            - Authentication: NoAuthentication
+              Name: trackingnumber-cap
+              ProxyType: Internet
+              Description: 'Tracking Number Service'
+              Type: HTTP
+              URL: 'https://~{srv-api/srv-url}'
+              HTML5.DynamicDestination: true
+              ForwardAuthToken: true
+            existing_destinations_policy: update
           instance:
             destinations:
               - Authentication: NoAuthentication

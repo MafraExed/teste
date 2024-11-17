@@ -5,7 +5,7 @@
     {
       "source": "^/Rastreio/(.*)$",
       "target": "/Rastreio/$1",
-      "destination": "none",
+      "destination": "trackingnumber-cap",
       "authenticationType": "xsuaa",
       "csrfProtection": false
     },

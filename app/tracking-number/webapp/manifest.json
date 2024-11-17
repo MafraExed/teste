@@ -28,7 +28,7 @@
     "crossNavigation": {
       "inbounds": {
         "agr.fs.tracking-number-display": {
-          "semanticObject": "agr.fs.tracking-number",
+          "semanticObject": "tracking_number",
           "action": "display",
           "title": "{{flpTitle}}",
           "subTitle": "{{flpSubtitle}}",
@@ -176,6 +176,6 @@
   },
   "sap.cloud": {
     "public": true,
-    "service": "control-tower"
+    "service": "control_tower"
   }
 }
