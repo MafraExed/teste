@@ -216,7 +216,7 @@ annotate RastreioService.ContractConversion with @(UI: {
             ],
         }, }
     );
-    requestedDeliveryDate         @title: 'Data delivery';
+    requestedDeliveryDate         @title: 'Data e Hora do Rastreio';
     soldToParty                   @title: 'Vendida para';
     purchaseOrderByCustomer       @title: 'Pedido de Compras';
     customerPaymentTerms          @(
@@ -285,7 +285,7 @@ annotate RastreioService.ContractConversion with @(UI: {
     partnerBroker                 @title: 'Parceiro corretora';
     pickingDate                   @title: 'Data';
     customerReferenceDate         @title: 'Dara de referencia para venda';
-    harvest                       @title: 'Colheita';
+    harvest                       @title: 'Safra';
     fixedValueDate                @title: 'Data fixa';
     pricingListType               @title: 'Tipo da lista de preço';
     grossAmount                   @title: 'Valor bruto';

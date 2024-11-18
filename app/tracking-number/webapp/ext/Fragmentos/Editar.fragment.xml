@@ -262,29 +262,6 @@
 					<l:SplitterLayoutData size="70%" resizable="false"/>
 				</layoutData>
 			</VBox>
-			<VBox class="fs-table-margin">
-				<Table id="shipping-divisions" items="{Aux>/Tracking/shippingDivisions}" headerText="{i18n>shippingDivisions}">
-					<columns>
-						<Column>
-							<Text text="{i18n>loadingDate}"/>
-						</Column>
-						<Column demandPopin="true">
-							<Text text="{i18n>scheduledQuantity}"/>
-						</Column>
-					</columns>
-					<items>
-						<ColumnListItem vAlign="Middle">
-							<cells>
-								<Text text="{Aux>/Tracking/loadingDate}"/>
-								<Text text="{Aux>/Tracking/scheduledQuantity}"/>
-							</cells>
-						</ColumnListItem>
-					</items>
-				</Table>
-				<layoutData>
-					<l:SplitterLayoutData size="auto"/>
-				</layoutData>
-			</VBox>
 		</l:Splitter>
 		<VBox>
 			<f:Form id="purchaseOrder-form" editable="true">
